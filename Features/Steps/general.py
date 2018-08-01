@@ -13,8 +13,6 @@ def normalize_url(url: str) -> str:
 
 @given(u'we on page "{page}"')
 def step_page(context, page):
-    # page = "http://www.wave-access.com/"
-    # context.driver.get(page)
     context.driver.get(f'http://{CRED}@wasiteen.wavea.cc/')
     context.driver.maximize_window()
 
