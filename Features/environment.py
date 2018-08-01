@@ -13,6 +13,3 @@ def selenium_browser_chrome(context):
 def before_all(context):
     use_fixture(selenium_browser_chrome, context)
     # -- HINT: CLEANUP-FIXTURE is performed after after_all() hook is called.
-
-# def before_feature(context, feature):
-#     model.init(environment='test')
