@@ -5,3 +5,4 @@ gen
 build
 reports/testResult
 reports/allureReport
+!/reports/allureReport/index.html

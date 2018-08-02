@@ -18,14 +18,16 @@ def step_page(context):
 
 
 @when(u'we click at sections and we should see correct url')
-def step_btn(context):
+def step_click(context):
 
     def csv_dict_reader(file_obj):
         reader = csv.DictReader(file_obj, delimiter=',')
         for line in reader:
-            context.driver.find_element_by_xpath(f'//a[contains(text(),"{(line["section"])}")]').click()
+            context.driver.find_element_by_xpath(
+                f'//a[contains(text(),"{(line["section"])}")]').click()
             url = context.driver.current_url
-            need_url = f'http://{CRED}@wasiteen.wavea.cc/public_en/{(line["sections"])}.aspx'
+            need_url = f'http://{CRED}@wasiteen.wavea.cc/public_en' \
+                       f'/{(line["sections"])}.aspx'
             assert url == need_url
 
     with open("resources/menu.csv") as f_obj:
@@ -33,12 +35,14 @@ def step_btn(context):
 
 
 @when(u'we click at button "{button}"')
-def step_btn(context, button):
-    context.driver.find_element_by_xpath(f'//a[contains(text(),"{button}")]').click()
+def step_button(context, button):
+    context.driver.find_element_by_xpath(
+        f'//a[contains(text(),"{button}")]').click()
 
 
-@then('in section "{products}" we click at button details and we should see the transition to "{sections}"')
-def step_det(context, products, sections):
+@then('in section "{products}" we click at button details '
+      'and we should see the transition to "{sections}"')
+def step_details(context, products, sections):
     wait = WebDriverWait(context.driver, 5)
 
     context.current_window = context.driver.current_window_handle
@@ -49,7 +53,8 @@ def step_det(context, products, sections):
         f' "{products}")]/parent::node()//a').click()
     wait.until(ec.new_window_is_opened(context.old_windows))
 
-    new_window = [i for i in context.driver.window_handles if i not in context.old_windows]
+    new_window = [i for i in context.driver.window_handles
+                  if i not in context.old_windows]
     context.driver.switch_to.window(new_window[0])
 
     url = context.driver.current_url
@@ -61,17 +66,17 @@ def step_det(context, products, sections):
 
 
 @when(u'we click at button phone call with id "{button}"')
-def step_phn(context, button):
+def step_phone(context, button):
     context.driver.find_element_by_xpath(f'//*[@id="orderCallLink"]').click()
 
 
 @when('we write "{text}" at element with id "{id}"')
-def verify_title(context, text, id):
+def step_text(context, text, id):
     context.driver.find_element_by_id(id).send_keys(text)
 
 
 @when(u'we write "" at element with id "{id}"')
-def step_verify(context, id):
+def step_empty(context, id):
     pass
 
 
@@ -96,7 +101,8 @@ def step_click(context):
 
 @then('I should see field with id "{id}" and placeholder message "{error}"')
 def step_msg(context, id, error):
-    context.driver.find_element_by_xpath(f'//input[@id="{id}"][@placeholder="{error}"]')
+    context.driver.find_element_by_xpath(f'//input[@id="{id}"]'
+                                         f'[@placeholder="{error}"]')
 
 
 @when('we click at button Get started')
@@ -106,4 +112,5 @@ def step_start(context):
 
 @then('I should see message "{success}" at element with id "{id}"')
 def step_scs(context, success, id):
-    context.driver.find_element_by_xpath(f'//div[@id="{id}"]/div[contains(text(),"{success}")]')
+    context.driver.find_element_by_xpath(
+        f'//div[@id="{id}"]/div[contains(text(),"{success}")]')
