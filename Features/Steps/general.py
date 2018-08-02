@@ -11,15 +11,13 @@ def normalize_url(url: str) -> str:
     return url.replace(f"{CRED}@", "")
 
 
-@given(u'we on page "{page}"')
-def step_page(context, page):
-    # page = "http://www.wave-access.com/"
-    # context.driver.get(page)
+@given(u'we on page "test site"')
+def step_page(context):
     context.driver.get(f'http://{CRED}@wasiteen.wavea.cc/')
     context.driver.maximize_window()
 
 
-@when(u'we click at sections')
+@when(u'we click at sections and we should see correct url')
 def step_btn(context):
 
     def csv_dict_reader(file_obj):
@@ -42,15 +40,23 @@ def step_btn(context, button):
 @then('in section "{products}" we click at button details and we should see the transition to "{sections}"')
 def step_det(context, products, sections):
     wait = WebDriverWait(context.driver, 5)
+
     context.current_window = context.driver.current_window_handle
     context.old_windows = context.driver.window_handles
-    context.driver.find_element_by_xpath(f'//h3[@class="h3-wa textUnder" and contains(text(), "{products}")]/parent::node()//a').click()
+
+    context.driver.find_element_by_xpath(
+        f'//h3[@class="h3-wa textUnder" and contains(text(),'
+        f' "{products}")]/parent::node()//a').click()
     wait.until(ec.new_window_is_opened(context.old_windows))
+
     new_window = [i for i in context.driver.window_handles if i not in context.old_windows]
     context.driver.switch_to.window(new_window[0])
+
     url = context.driver.current_url
+
     context.driver.close()
     context.driver.switch_to.window(context.current_window)
+
     assert normalize_url(url) == sections
 
 
