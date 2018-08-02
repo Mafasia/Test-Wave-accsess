@@ -3,3 +3,4 @@ allure-behave
 selenium
 requests
 teamcity
+pytest-allure-adaptor==1.7.7
