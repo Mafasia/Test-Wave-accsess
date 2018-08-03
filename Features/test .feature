@@ -1,13 +1,14 @@
 Feature: test
 
+  Background:
+    Given we on page "test site"
+
 
   Scenario: Test menu
-    Given we on page "test site"
     When we click at sections and we should see correct url
 
 
   Scenario Outline: Test phone call
-    Given we on page "test site"
     When  we click at button "Technologies"
     And we click at button phone call with id "orderCallLink"
     And we write "<number>" at element with id "TelephoneOrderCall"
@@ -24,7 +25,6 @@ Feature: test
 
 
   Scenario Outline: Test links
-    Given we on page "test site"
     When we click at button "Products"
     Then in section "<products>" we click at button details and we should see the transition to "<links>"
 
@@ -43,7 +43,6 @@ Feature: test
       | СhatOnline accelerator for MS CRM    | http://wasiteen.wavea.cc/public_en/portal.aspx                                    |
 
   Scenario Outline: Negative test form filling
-    Given we on page "test site"
     When  we click at button Get started
     And we write "<email>" at element with id "getStartedEmail"
     And we write "<name>" at element with id "getStartedUsername"
@@ -59,7 +58,6 @@ Feature: test
 
 
   Scenario Outline: Positive test form filling
-    Given we on page "test site"
     When  we click at button Get started
     And we write "<email>" at element with id "getStartedEmail"
     And we write "<name>" at element with id "getStartedUsername"
